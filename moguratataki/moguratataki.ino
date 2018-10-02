@@ -16,15 +16,13 @@ void setup() {
   pinMode(7, INPUT);
   pinMode(6, INPUT);
 
-  Serial.println("gameStart!!");
-  delay(1000);
 }
 
 void loop() {
   if (game_count == 10 + 1) {     //ここでゲームの回数設定
     GameEnd_reset();
   }
-  else if(game_count == 0){
+  else if (game_count == 0) {
     game_setting();
   }
   else {
@@ -57,18 +55,22 @@ void GameEnd_reset() {
 }
 
 
-
-void game_setting(){
+void game_setting() {
   int i;
-  for(i = 0;i < 50;i++){
-    if(digitalRead(select_bottm) == HIGH){     //ゲームレベルの選択ボタンの選択
+  Serial.print("game_level===");
+  Serial.println(game_level);
+  for (i = 0; i < 50; i++) {
+    if (digitalRead(select_bottm) == HIGH) {   //ゲームレベルの選択ボタンの選択
       game_level++;
+      Serial.print("game_level===");
+      Serial.println(game_level);
+      delay(300);
     }
-    Serial.print("game_level===");
-    Serial.println(game_level);
     delay(100);
   }
   game_count++;
+  Serial.println("gameStart!!");
+  delay(1000);
 }
 
 
@@ -78,11 +80,15 @@ void game_main() {
   int light_num;
   int i;
   randomSeed(analogRead(0));
-  light_num = random(10, 13);
+
+  light_num = random(10, 14);
 
   digitalWrite(light_num, HIGH);
   for (i = 0; i < light_time; i++) {
-    if (digitalRead(light_num - 4) == HIGH) {
+    if(botton_ans(light_num - 4) == 0){
+      break;
+    }
+    else if(botton_ans(light_num - 4) == 1){
       score++;
       break;
     }
@@ -90,7 +96,26 @@ void game_main() {
   }
   game_count++;
   digitalWrite(light_num, LOW);
-  light_time -= game_level * 30; //ゲームが進むにつれて光る時間が減っていく
+
+  if (light_time > 300) {
+    light_time *= ((10 - game_level) * 0.1); //ゲームが進むにつれて光る時間が減っていく
+  }
   delay(500);
 }
 
+
+int botton_ans(int push_botton) {
+  int list[4] = {9, 8, 7, 6};
+  int i;
+
+  for (i = 0; i < 4; i++) {
+    if (digitalRead(list[i]) == HIGH) {
+      if (push_botton == list[i]) {
+        return (1);
+      }
+      else if(push_botton != list[i]){
+        return (0);
+      }
+    }
+  }
+}
