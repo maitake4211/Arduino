@@ -113,7 +113,7 @@ int botton_ans(int push_botton) {
       if (push_botton == list[i]) {
         return (1);
       }
-      else if(push_botton != list[i]){
+      else if(push_botto != list[i]){
         return (0);
       }
     }
