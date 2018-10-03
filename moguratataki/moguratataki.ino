@@ -37,9 +37,6 @@ void GameEnd_reset() {
   Serial.print("game_score==");
   Serial.println(score);
   Serial.println("gameEND");
-  score = 0;
-  game_level = 0;
-  light_time = 1000;
   Serial.println("Restart??");
   Serial.println("If restart now, push a greenbotan");
   while (1) {
@@ -47,7 +44,7 @@ void GameEnd_reset() {
       game_count = 0;
       score = 0;
       game_level = 0;
-      light_time = 1000;
+      light_time = 5000;
       break;
     }
   }
@@ -113,7 +110,7 @@ int botton_ans(int push_botton) {
       if (push_botton == list[i]) {
         return (1);
       }
-      else if(push_botto != list[i]){
+      else if(push_botton != list[i]){
         return (0);
       }
     }
