@@ -5,7 +5,11 @@
 //                                    //
 ////////////////////////////////////////
 
-
+const int Arduino_num = 901;
+const int atm_temp = 991;
+const int hum = 992;
+const int wat_temp = 993;
+const int lx = 994;
 
 /////////ライブラリ////////////
 #include <Adafruit_Si7021.h>
@@ -48,32 +52,31 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(Arduino_num);
   temp_and_hom();
   water_temp();
   ilmi();
+  Serial.println("");
   delay(1000);
 
 }
 
-//気温センサと湿度センサ
 void temp_and_hom(){
-  Serial.print("Humidity: "); 
-  Serial.println(sensor.readHumidity(), 2);//湿度の取得&シリアル通信
-  Serial.println("");
-  Serial.print("Temperature: "); //気温の取得&シリアル通信
+  Serial.print(hum);
+  Serial.print(" "); //実験用 
+  Serial.println(sensor.readHumidity(), 2);
+  Serial.print(atm_temp); 
+  Serial.print(" "); //実験用
   Serial.println(sensor.readTemperature(), 2);
-  Serial.println("");
 }
 
-//水温センサ
 void water_temp(){
-  sensors.requestTemperatures();// 水温取得要求
-  Serial.print("water_temp:");
-  Serial.println(sensors.getTempCByIndex(0)); //水温の取得&シリアル送信
-  Serial.println("");
+  sensors.requestTemperatures();// 温度取得要求
+  Serial.print(wat_temp);
+  Serial.print(" "); //実験用
+  Serial.println(sensors.getTempCByIndex(0)); //温度の取得&シリアル送信
 }
 
-//以下照度センサのコード(現在コードを簡略化を模索中)
 void ilmi(){
   float valf=0;
   
@@ -81,10 +84,15 @@ void ilmi(){
      
     valf=((buff[0]<<8)|buff[1])/1.2;
      
-    if(valf<0)Serial.print("> 65535");
-    else Serial.print((int)valf,DEC); 
+    if(valf<0){
+      Serial.print("> 65535");
+    }
+    else{
+      Serial.print(lx);
+      Serial.print(" "); //実験用
+      Serial.println((int)valf,DEC); 
+    }
      
-    Serial.println(" lx"); 
   }
 }
 
