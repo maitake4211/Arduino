@@ -62,15 +62,18 @@ void loop() {
 }
 
 void temp_and_hom(){
-  Serial.print(hum); 
+  Serial.print(hum);
+  Serial.print(" "); //実験用 
   Serial.println(sensor.readHumidity(), 2);
   Serial.print(atm_temp); 
+  Serial.print(" "); //実験用
   Serial.println(sensor.readTemperature(), 2);
 }
 
 void water_temp(){
   sensors.requestTemperatures();// 温度取得要求
   Serial.print(wat_temp);
+  Serial.print(" "); //実験用
   Serial.println(sensors.getTempCByIndex(0)); //温度の取得&シリアル送信
 }
 
@@ -86,6 +89,7 @@ void ilmi(){
     }
     else{
       Serial.print(lx);
+      Serial.print(" "); //実験用
       Serial.println((int)valf,DEC); 
     }
      
